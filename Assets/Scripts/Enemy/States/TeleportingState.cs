@@ -18,19 +18,18 @@ namespace StatePattern.Enemy
         }
 
         public void Update() { }
-
+        public void OnStateExit() { }
         private void TeleportToRandomPosition() => Owner.Agent.Warp(GetRandomNavMeshPoint());
         private Vector3 GetRandomNavMeshPoint()
         {
-            Vector3 randomDirection = Random.insideUnitSphere * Owner.Data.RangeRadius + Owner.Position;
+            Vector3 randomDirection = Random.insideUnitSphere * Owner.Data.TeleportRadius + Owner.Position;
             NavMeshHit hit;
 
-            if (NavMesh.SamplePosition(randomDirection, out hit, Owner.Data.RangeRadius, NavMesh.AllAreas))
+            if (NavMesh.SamplePosition(randomDirection, out hit, Owner.Data.TeleportRadius, NavMesh.AllAreas))
                 return hit.position;
-
+            else
             return Owner.Data.SpawnPosition;
         }
 
-        public void OnStateExit() { }
     }
 }
